@@ -1,0 +1,202 @@
+@import "tailwindcss";
+
+@theme {
+  --font-grotesk: "Space Grotesk", sans-serif;
+}
+
+body {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.texto {
+  @apply text-2xl text-white font-grotesk font-extrabold;
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: translateY(80px) scale(0.85) rotate(-3deg);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1) rotate(0);
+  }
+}
+
+.steam-card {
+  transform-origin: center;
+}
+
+.steam-destroy {
+  animation: steamDestroy 0.7s ease-in forwards;
+}
+
+.steam-appear {
+  animation: steamAppear 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.steam-info {
+  animation: steamInfo 0.6s ease-out 0.35s both;
+}
+
+@keyframes steamDestroy {
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+
+  20% {
+    transform: scale(1.02) rotate(-1deg);
+  }
+
+  45% {
+    transform: scale(0.98) rotate(2deg);
+  }
+
+  70% {
+    transform: scale(1.05) rotate(-3deg);
+    opacity: 0.7;
+  }
+
+  100% {
+    transform: scale(0.6) rotate(8deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+@keyframes steamAppear {
+  0% {
+    transform: scale(0.65) rotate(-6deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  60% {
+    transform: scale(1.03) rotate(2deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+@keyframes steamInfo {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+/* =========================
+   STEAM CARD
+   ========================= */
+
+.steam-card {
+  transform-origin: center;
+}
+
+
+/* =========================
+   DESTRUCCIÓN
+   ========================= */
+
+.steam-destroy {
+  animation: steamDestroy 0.6s ease-in forwards;
+}
+
+@keyframes steamDestroy {
+
+  0% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  20% {
+    transform: scale(1.02) rotate(-1deg);
+  }
+
+  40% {
+    transform: scale(0.98) rotate(2deg);
+  }
+
+  60% {
+    transform: scale(1.04) rotate(-3deg);
+    opacity: 0.8;
+  }
+
+  80% {
+    transform: scale(0.8) rotate(5deg);
+    opacity: 0.4;
+  }
+
+  100% {
+    transform: scale(0.4) rotate(10deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+}
+
+
+/* =========================
+   APARICIÓN
+   ========================= */
+
+.steam-appear {
+  animation: steamAppear 0.9s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes steamAppear {
+
+  0% {
+    transform: scale(0.5) rotate(-8deg);
+    opacity: 0;
+    filter: blur(8px);
+  }
+
+  50% {
+    transform: scale(1.05) rotate(2deg);
+    opacity: 1;
+    filter: blur(0);
+  }
+
+  75% {
+    transform: scale(0.98) rotate(-1deg);
+  }
+
+  100% {
+    transform: scale(1) rotate(0deg);
+    opacity: 1;
+  }
+}
+
+
+/* =========================
+   INFORMACIÓN EXTRA
+   ========================= */
+
+.steam-info {
+  animation: steamInfo 0.6s ease-out 0.35s both;
+}
+
+@keyframes steamInfo {
+
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}

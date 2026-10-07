@@ -1,0 +1,25 @@
+@import "tailwindcss";
+
+.pupue {
+  @apply w-250;
+  @apply h-auto;;
+  @apply mx-auto;
+}
+.hero {
+  position: relative;
+  overflow: hidden;
+}
+
+.hero-background {
+  animation: heroBackgroundFade 1s ease-in-out forwards;
+}
+
+@keyframes heroBackgroundFade {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
