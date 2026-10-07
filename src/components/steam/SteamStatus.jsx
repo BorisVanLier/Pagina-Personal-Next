@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { fetchSteamStatus } from "./SteamService";
 import SteamCard from "./SteamCard";
 import SteamExplosion from "./SteamExplosion";
 import "./steamAnimations.css";
@@ -14,89 +15,82 @@ export default function SteamStatus({ onGameChange }) {
   const timersRef = useRef([]);
 
   async function getSteamStatus() {
-    try {
-      const response = await fetch("/api/steam", {
-        cache: "no-store",
-      });
+    const data = await fetchSteamStatus();
 
-      const data = await response.json();
+    if (!data) return;
 
-      const previous = steamRef.current;
+    const previous = steamRef.current;
 
-      // Primera carga
-      if (previous === null) {
-        steamRef.current = data;
-        setSteam(data);
-
-        onGameChange?.(
-          data.playing ? data.gameId : null
-        );
-
-        return;
-      }
-
-      // 😨 Desconectado → 😛 Jugando
-      if (!previous.playing && data.playing) {
-        setAnimation("destroy");
-
-        timersRef.current.forEach(clearTimeout);
-
-        timersRef.current.push(
-          setTimeout(() => {
-            setExplosion(true);
-
-            steamRef.current = data;
-            setSteam(data);
-
-            onGameChange?.(data.gameId);
-
-            setAnimation("appear");
-          }, 600)
-        );
-
-        timersRef.current.push(
-          setTimeout(() => {
-            setExplosion(false);
-            setAnimation("");
-          }, 1800)
-        );
-
-        return;
-      }
-
-      // 😛 Jugando → 😨 Desconectado
-      if (previous.playing && !data.playing) {
-        steamRef.current = data;
-        setSteam(data);
-
-        onGameChange?.(null);
-
-        setAnimation("");
-
-        return;
-      }
-
-      // Juego cambiado
-      if (
-        previous.playing &&
-        data.playing &&
-        previous.gameId !== data.gameId
-      ) {
-        steamRef.current = data;
-        setSteam(data);
-
-        onGameChange?.(data.gameId);
-
-        return;
-      }
-
-      // Cualquier otro cambio
+    // Primera carga
+    if (previous === null) {
       steamRef.current = data;
       setSteam(data);
 
-    } catch (error) {
-      console.error("Error obteniendo Steam:", error);
+      onGameChange?.(
+        data.playing ? data.gameId : null
+      );
+
+      return;
     }
+
+    // 😨 Desconectado → 😛 Jugando
+    if (!previous.playing && data.playing) {
+      setAnimation("destroy");
+
+      timersRef.current.forEach(clearTimeout);
+
+      timersRef.current.push(
+        setTimeout(() => {
+          setExplosion(true);
+
+          steamRef.current = data;
+          setSteam(data);
+
+          onGameChange?.(data.gameId);
+
+          setAnimation("appear");
+        }, 600)
+      );
+
+      timersRef.current.push(
+        setTimeout(() => {
+          setExplosion(false);
+          setAnimation("");
+        }, 1800)
+      );
+
+      return;
+    }
+
+    // 😛 Jugando → 😨 Desconectado
+    if (previous.playing && !data.playing) {
+      steamRef.current = data;
+      setSteam(data);
+
+      onGameChange?.(null);
+
+      setAnimation("");
+
+      return;
+    }
+
+    // Juego cambiado
+    if (
+      previous.playing &&
+      data.playing &&
+      previous.gameId !== data.gameId
+    ) {
+      steamRef.current = data;
+      setSteam(data);
+
+      onGameChange?.(data.gameId);
+
+      return;
+    }
+
+    // Cualquier otro cambio
+    steamRef.current = data;
+    setSteam(data);
   }
 
   useEffect(() => {
