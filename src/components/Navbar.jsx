@@ -25,10 +25,7 @@ function Navbar() {
           <Link href="/about" className="text-2xl font-extrabold">
             Sobre mí
           </Link>
-
-          <button className="text-2xl font-extrabold">
-            Contacto
-          </button>
+          
         </div>
 
         <BotonNavbar
@@ -45,7 +42,7 @@ function Navbar() {
 >
   <Link href="/">Inicio</Link>
   <Link href="/about">Sobre mí</Link>
-  <button>Contacto</button>
+
 </div>
     </>
   );
