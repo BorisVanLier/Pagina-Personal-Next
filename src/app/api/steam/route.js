@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import { fetchSteamPlayer } from "../../actions/steam";
 
 export async function GET() {
   const apiKey = process.env.STEAM_API_KEY;
@@ -9,26 +10,8 @@ export async function GET() {
     `?key=${apiKey}&steamids=${steamId}`;
 
   try {
-    const response = await fetch(url, {
-      cache: "no-store",
-    });
-
-    const data = await response.json();
-    const player = data.response.players?.[0];
-
-    if (!player) {
-      return NextResponse.json({
-        playing: false,
-      });
-    }
-
-    return NextResponse.json({
-      playing: Boolean(player.gameid),
-      game: player.gameextrainfo || null,
-      gameId: player.gameid || null,
-      avatar: player.avatarfull || null,
-      profile: player.profileurl || null,
-    });
+    const data = await fetchSteamPlayer(url);
+    return NextResponse.json(data);
   } catch (error) {
     console.error(error);
 
