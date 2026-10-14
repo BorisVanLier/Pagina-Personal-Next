@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { fetchSteamStatus } from "./SteamService";
+import { fetchSteamStatus } from "./SteamFetch";
 import SteamCard from "./SteamCard";
 import SteamExplosion from "./SteamExplosion";
 import "./steamAnimations.css";
@@ -10,14 +10,22 @@ export default function SteamStatus({ onGameChange }) {
   const [steam, setSteam] = useState(null);
   const [animation, setAnimation] = useState("");
   const [explosion, setExplosion] = useState(false);
+  const [error, setError] = useState(null);
 
   const steamRef = useRef(null);
   const timersRef = useRef([]);
 
   async function getSteamStatus() {
-    const data = await fetchSteamStatus();
+const data = await fetchSteamStatus();
 
-    if (!data) return;
+if (!data) {
+  setError(
+    "No se pudo cargar Steam. Revisá la configuración de la API."
+  );
+  return;
+}
+
+setError(null);
 
     const previous = steamRef.current;
 
@@ -110,7 +118,13 @@ export default function SteamStatus({ onGameChange }) {
     return (
       <section className="mt-10 w-full px-5">
         <div className="mx-auto w-full max-w-4xl border border-white/20 bg-[#292522] p-8 text-white">
-          Cargando estado de Steam...
+          {error ? (
+  <p role="alert" className="text-red-300">
+    Error: {error}
+  </p>
+) : (
+  <p>Cargando estado de Steam...</p>
+)}
         </div>
       </section>
     );
