@@ -15,6 +15,6 @@ export async function fetchSteamPlayer(url) {
     };
   } catch (error) {
     console.error(error);
-    throw error; // sube a route.js
+    throw error; 
   }
 }
